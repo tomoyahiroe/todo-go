@@ -8,9 +8,6 @@ import (
 func GetAllTodos() ([]*types.Todo, error) {
 	db, err := connectDB()
 	if err != nil {
-		if err.Error() == errDBConnectionFailed {
-			return nil, err
-		}
 		return nil, fmt.Errorf("unknown error:%v", err)
 	}
 	rows, err := db.Query("SELECT * FROM todos")

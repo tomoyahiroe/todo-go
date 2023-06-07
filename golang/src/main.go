@@ -19,7 +19,7 @@ func main() {
 	r.GET("/", func(c *gin.Context) {
 		responce, err := controllers.Read()
 		if err != nil {
-			c.JSON(500, err)
+			c.JSON(500, gin.H{"error": string(err.Error())})
 			return
 		}
 		c.JSON(200, responce)
