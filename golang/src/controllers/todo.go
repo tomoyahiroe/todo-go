@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Read() ([]*types.Todo, err) {
+func Read() ([]*types.Todo, error) {
 	todos, err := services.GetTodos()
 	if err != nil {
 		return nil, fmt.Errorf("error occured while running func controllers.Read()\n: %v\n", err)
