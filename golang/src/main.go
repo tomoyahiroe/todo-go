@@ -17,7 +17,10 @@ import (
 func main() {
 	r := gin.Default()
 	r.GET("/", func(c *gin.Context) {
-		responce := controllers.Read()
+		responce, err := controllers.Read()
+		if err != nil {
+			c.JSON(500, err)
+		}
 		c.JSON(200, responce)
 	})
 	r.POST("/create", func(c *gin.Context) {
