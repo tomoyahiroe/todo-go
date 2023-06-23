@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "encoding/json"
+	"fmt"
 	_ "fmt"
 	_ "io"
 	"net/http"
@@ -25,15 +26,20 @@ func main() {
 		c.JSON(200, responce)
 	})
 	r.POST("/create", func(c *gin.Context) {
-		var todo_create struct {
-			Task        string `json:"task"`
-			Description string `json:"description"`
-		}
-		if err := c.ShouldBindJSON(&todo_create); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		err := controllers.Create(c)
+		if err != nil {
+			err = fmt.Errorf("Error while creating todo[POST /create in main.go]\n%v", err)
+			fmt.Println(err) // デバッグ用
+			c.JSON(500,
+				gin.H{
+					"error": string(err.Error()),
+				},
+			)
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"task": todo_create.Task, "description": todo_create.Description})
+		c.JSON(http.StatusOK,
+			gin.H{"message": "Todo created successfully"},
+		)
 
 	})
 	r.Run()
